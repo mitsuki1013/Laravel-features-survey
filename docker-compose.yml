@@ -8,7 +8,7 @@ services:
     build:
       context: .
       dockerfile: ./infra/docker/php/Dockerfile
-    volumes: 
+    volumes:
       - type: volume
         source: php-fpm-socket
         target: /var/run/php-fpm
@@ -49,7 +49,7 @@ services:
         source: .
         target: /work
 
-  db: 
+  db:
     build:
       context: .
       dockerfile: ./infra/docker/mysql/Dockerfile
@@ -62,10 +62,21 @@ services:
       - type: volume
         source: db-store
         target: /var/lib/mysql
-        volume: 
+        volume:
           nocopy: true
     environment:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+
+  node:
+    image: node:latest
+    working_dir: /home/node/app
+    volumes:
+        - .:/home/node/app
+    depends_on:
+        - web
+    expose:
+        - "10081"
+    command: [sh, -c, npm install && npm run watch]

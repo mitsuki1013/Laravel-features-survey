@@ -3,23 +3,43 @@
 namespace App\Http\Livewire;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Livewire\Component;
 
 class BulletinBoard extends Component
 {
-    public $count = 0;
+    public $postId;
+    public $content;
 
-    protected $listeners = ['add' => 'increment'];
-
-    public function increment()
+    /**
+     * @param int $postId
+     */
+    public function getId(int $postId)
     {
-        $this->count++;
+        $this->postId = $postId;
+        $post = Post::find($this->postId);
+        $this->content = $post->content;
     }
 
+    /**
+     *
+     */
+    public function update()
+    {
+        Post::where('id', $this->postId)->update(['content' => $this->content]);
+        $this->postId = null;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         $posts = Post::all();
-        return view('livewire.bulletin_board', compact('posts'));
+        $postId = $this->postId;
+        return view('livewire.bulletin_board',
+        compact(
+            'posts',
+            'postId',
+        ));
     }
 }

@@ -15,6 +15,9 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+
+    <!-- livewireStyles -->
+    @livewireStyles
 </head>
 <body>
 <section class="header bg-blue-200 bg-opacity-50">
@@ -42,5 +45,9 @@
         @livewire('bulletin-board')
     </div>
 </section>
+
+<!-- livewireScripts -->
+@livewireScripts
+
 </body>
 </html>

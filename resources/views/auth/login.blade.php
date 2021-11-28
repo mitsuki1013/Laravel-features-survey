@@ -44,5 +44,12 @@
                 </x-jet-button>
             </div>
         </form>
+        <div class="flex items-center justify-center mt-8">
+            @if (Route::has('register'))
+                <x-jet-button class="ml-4">
+                    <a href="{{ route('register') }}">Register</a>
+                </x-jet-button>
+            @endif
+        </div>
     </x-jet-authentication-card>
 </x-guest-layout>
